@@ -44,7 +44,7 @@ abstract class Validations {
     return null;
   }
 
-  static String? validateAddress(String? address) {
+  static String? validateString(String? address) {
     if (address == null || address.isEmpty) {
       return 'Address cannot be empty';
     } else if (address.length < 5) {
