@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_register_form_ui/helpers/view_bottom_sheet.dart';
 import 'package:login_register_form_ui/widgets/create_account_bottom_sheet_body_widget.dart';
 import 'package:login_register_form_ui/widgets/custom_elevated_button_widget.dart';
+import 'package:login_register_form_ui/widgets/login_bottom_sheet_body_widget.dart';
 
 class WelcomActionButtonWidget extends StatelessWidget {
   const WelcomActionButtonWidget({super.key});
@@ -24,7 +25,9 @@ class WelcomActionButtonWidget extends StatelessWidget {
         ),
         CustomElevatedButtonWidget(
           buttonText: "Login",
-          onPressed: () {},
+          onPressed: () {
+            viewBottomSheet(context, const LoginBottomSheetBodyWidget());
+          },
         )
       ],
     );
