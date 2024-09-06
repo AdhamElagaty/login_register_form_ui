@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:login_register_form_ui/helpers/show_snack_bar.dart';
+import 'package:login_register_form_ui/utils/app_style.dart';
 import 'package:login_register_form_ui/utils/validations.dart';
 import 'package:login_register_form_ui/widgets/custom_elevated_button_widget.dart';
 import 'package:login_register_form_ui/widgets/custom_text_form_field_widget.dart';
 
-class CreateAccountFormWidget extends StatefulWidget {
-  const CreateAccountFormWidget({super.key});
+class LoginFormWidget extends StatefulWidget {
+  const LoginFormWidget({super.key});
 
   @override
-  State<CreateAccountFormWidget> createState() =>
-      _CreateAccountFormWidgetState();
+  State<LoginFormWidget> createState() => _LoginFormWidgetState();
 }
 
-class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
+class _LoginFormWidgetState extends State<LoginFormWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  final _courseController = TextEditingController();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  bool isChecked = false;
+  bool isValidateCheckbox = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +45,8 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
             height: 20,
           ),
           CustomTextFormFieldWidget(
-            labelText: "course",
-            hintText: "course name",
-            controller: _courseController,
-            validator: Validations.validateString,
-            suffixFocusedIcon: const Icon(
-              Icons.remove_red_eye_outlined,
-              color: Color(0xff050522),
-            ),
-            suffixIcon: const Icon(
-              Icons.remove_red_eye_outlined,
-              color: Color(0xffA0936B),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          CustomTextFormFieldWidget(
             labelText: "password",
-            hintText: "write strong password",
+            hintText: "write your password here",
             controller: _passwordController,
             obscureText: true,
             validator: Validations.validatePassword,
@@ -71,26 +54,35 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
           const SizedBox(
             height: 20,
           ),
-          CustomTextFormFieldWidget(
-            labelText: "confirm password",
-            hintText: "write password again",
-            controller: _confirmPasswordController,
-            obscureText: true,
-            validator: (value) {
-              return Validations.validateConfirmPassword(
-                  value, _passwordController.text);
-            },
-          ),
-          const SizedBox(
-            height: 20,
+          Row(
+            children: [
+              Checkbox(
+                value: isChecked,
+                onChanged: (value) {
+                  setState(() {
+                    isChecked = value!;
+                  });
+                },
+              ),
+              Text(
+                'Remember me',
+                style: (isValidateCheckbox && !isChecked)
+                    ? AppStyle.styleRegular15
+                        .copyWith(color: const Color(0xffb42921))
+                    : AppStyle.styleRegular15,
+              ),
+              const Spacer(),
+              const Text('Forgot Password ?'),
+            ],
           ),
           CustomElevatedButtonWidget(
-            buttonText: "Register",
+            buttonText: "Login",
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
+              if (isChecked && _formKey.currentState!.validate()) {
                 Navigator.pop(context);
-                showSnackBar(context, "Create Account Success");
+                showSnackBar(context, "Login Success");
               } else {
+                isValidateCheckbox = true;
                 autovalidateMode = AutovalidateMode.always;
                 setState(() {});
               }
