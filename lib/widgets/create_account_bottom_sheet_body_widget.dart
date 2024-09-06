@@ -33,7 +33,9 @@ class CreateAccountBottomSheetBodyWidget extends StatelessWidget {
             BottomSheetFooterWidget(
               messageText: "Already have account? ",
               actionText: "Login",
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(
               height: 20,
