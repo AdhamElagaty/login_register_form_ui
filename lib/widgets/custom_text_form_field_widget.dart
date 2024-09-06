@@ -114,6 +114,19 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
                   });
                 })
             : widget.suffixFocusedIcon)
-        : widget.suffixIcon;
+        : (widget.obscureText != null
+            ? IconButton(
+                icon: Icon(
+                  _currentObscureText!
+                      ? Icons.lock_outline
+                      : Icons.lock_open_outlined,
+                  color: const Color(0xffA0936B),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _currentObscureText = !_currentObscureText!;
+                  });
+                })
+            : widget.suffixIcon);
   }
 }
