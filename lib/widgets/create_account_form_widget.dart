@@ -18,11 +18,13 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _courseController = TextEditingController();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
+      autovalidateMode: autovalidateMode,
       child: Column(
         children: [
           CustomTextFormFieldWidget(
@@ -88,6 +90,9 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
               if (_formKey.currentState!.validate()) {
                 Navigator.pop(context);
                 showSnackBar(context, "Create Account Success");
+              } else {
+                autovalidateMode = AutovalidateMode.always;
+                setState(() {});
               }
             },
             borderColor: const Color(0xff050522),
