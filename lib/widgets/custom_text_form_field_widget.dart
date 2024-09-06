@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:login_register_form_ui/utils/app_style.dart';
 
-class CustomTextFormField extends StatefulWidget {
-  const CustomTextFormField({
+class CustomTextFormFieldWidget extends StatefulWidget {
+  const CustomTextFormFieldWidget({
     super.key,
     required this.hintText,
+    this.labelText,
     this.controller,
     this.obscureText,
     this.validator,
@@ -16,6 +18,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final bool? obscureText;
   final String hintText;
+  final String? labelText;
   final String? Function(String?)? validator;
   final Widget? suffixFocusedIcon;
   final Widget? suffixIcon;
@@ -23,10 +26,11 @@ class CustomTextFormField extends StatefulWidget {
   final void Function(String)? onChanged;
 
   @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+  State<CustomTextFormFieldWidget> createState() =>
+      _CustomTextFormFieldWidgetState();
 }
 
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
+class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
   bool? _currentObscureText;
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
@@ -59,26 +63,57 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onChanged: widget.onChanged,
       maxLength: widget.textInputType == TextInputType.phone ? 11 : null,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        errorBorder: const OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xff050522)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide:
+              BorderSide(color: const Color(0xff050522).withOpacity(0.5)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
         hintText: widget.hintText,
-        label: Text(widget.hintText),
+        hintStyle:
+            AppStyle.styleRegular18.copyWith(color: const Color(0xff000000)),
+        label: Text(
+          widget.labelText ?? widget.hintText,
+          style: _getLabelStyle(),
+        ),
         errorMaxLines: 3,
         counterText: '',
-        suffixIcon: _isFocused
-            ? (widget.obscureText != null
-                ? IconButton(
-                    icon: Icon(_currentObscureText!
-                        ? Icons.visibility_off
-                        : Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        _currentObscureText = !_currentObscureText!;
-                      });
-                    })
-                : widget.suffixFocusedIcon)
-            : widget.suffixIcon,
+        suffixIcon: _getSuffixIcon(),
       ),
     );
+  }
+
+  TextStyle _getLabelStyle() {
+    return _isFocused
+        ? AppStyle.styleRegular15
+        : AppStyle.styleRegular18
+            .copyWith(color: const Color(0xff050522).withOpacity(0.5));
+  }
+
+  Widget? _getSuffixIcon() {
+    return _isFocused
+        ? (widget.obscureText != null
+            ? IconButton(
+                icon: Icon(
+                  _currentObscureText!
+                      ? Icons.lock_outline
+                      : Icons.lock_open_outlined,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _currentObscureText = !_currentObscureText!;
+                  });
+                })
+            : widget.suffixFocusedIcon)
+        : widget.suffixIcon;
   }
 }
