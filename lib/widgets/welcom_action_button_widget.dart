@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_register_form_ui/helpers/view_bottom_sheet.dart';
 import 'package:login_register_form_ui/widgets/create_account_bottom_sheet_body_widget.dart';
 import 'package:login_register_form_ui/widgets/custom_elevated_button_widget.dart';
 
@@ -26,17 +27,6 @@ class WelcomActionButtonWidget extends StatelessWidget {
           onPressed: () {},
         )
       ],
-    );
-  }
-
-  void viewBottomSheet(BuildContext context, Widget bottomSheetBody) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: const Color(0xffFFECAA),
-      context: context,
-      builder: (context) {
-        return bottomSheetBody;
-      },
     );
   }
 }
